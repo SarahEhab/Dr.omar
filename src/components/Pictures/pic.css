@@ -1,0 +1,9 @@
+.fade {
+    display: flex !important;
+    justify-content: center !important;
+}
+.modal-content{
+    background-color: #00000057;
+    margin-top: 80px;
+}
+

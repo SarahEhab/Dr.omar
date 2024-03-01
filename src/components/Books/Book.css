@@ -1,0 +1,30 @@
+.accordion-body{
+    background-color: rgba(244, 245, 247, 1) !important;
+    color:rgba(209, 155, 111, 1)  !important;
+}
+.accordion-button{
+    background-color: rgba(244, 245, 247, 1) !important;
+    color:rgba(209, 155, 111, 1)  !important;
+}
+.accordion-item{
+    border: none;
+}
+
+.accordion-button::after {
+    /* Hide the default arrow icon */
+    display: none;
+}
+.accordion-button::before {
+    /* Add the @ symbol */
+    content: '+';
+    /* Add additional styling as needed */
+    font-size: 1.25rem;
+    color: #000;
+    margin-right: 0.5rem;
+}
+.accordion-button:not(.collapsed)::before {
+    content: '-';
+    font-size: 1.25rem;
+    color: #000;
+}
+

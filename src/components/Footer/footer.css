@@ -1,0 +1,13 @@
+
+.d-flex-menu  a {
+   margin-top: 5px;
+   padding: 15px;
+    color: rgb(127 119 119) !important ;
+    text-decoration: none;
+    
+  }
+@media (max-width: 768px) {
+    .d-flex-menu a {
+      font-size: 10px;
+    }
+  }
