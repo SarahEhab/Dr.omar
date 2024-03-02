@@ -23,9 +23,9 @@ import { getEldersById } from "../../features/elders/eldersSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link,useParams  } from 'react-router-dom';
-import { getAudioPublic } from "../../features/audios/audioSlice"
+import { getAudioCategoryById, getAudioPublic } from "../../features/audios/audioSlice"
 
-const AudioCard = () => {
+const AudioCardCategory = () => {
   const audioRef = useRef(null);
   const [duration, setDuration] = useState(0);
   const [durationFormatted, setDurationFormatted] = useState('0:00');
@@ -62,14 +62,14 @@ const AudioCard = () => {
   const { id } = params;
   const dispatch = useDispatch();
 
-  const getDataOne = useSelector((state) => state.audio.publicAudio);
+  const getDataOne = useSelector((state) => state.audio.audioCategoryId);
 
   const isLoading = useSelector((state) => state.audio.isLoading);
   const error = useSelector((state) => state.audio.error);
 
   console.log(getDataOne)
   useEffect(() => {
-    dispatch(getAudioPublic(id));
+    dispatch(getAudioCategoryById(id));
   }, [dispatch,id]);
     return <>
      <NavBar />
@@ -190,4 +190,4 @@ const AudioCard = () => {
     </Container>
     </>;
 }
-export default AudioCard;
+export default AudioCardCategory;

@@ -19,38 +19,44 @@ import group22 from "../../images/Group-2-2.png";
 import sortIcon from "../../images/sort-icon.png";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getAudioCategory, getAudios } from "../../features/audios/audioSlice";
-import { Link } from "react-router-dom";
+import { Link,useParams  } from 'react-router-dom';
 import NavBar from "../Navbar/NavBar";
 import { getElders } from "../../features/elders/eldersSlice";
 
-const Audios = () => {
-  const dispatch = useDispatch();
-  const getAll = useSelector((state) => state.audio.audios);
-  const isLoading = useSelector((state) => state.audio.isLoading);
-  const error = useSelector((state) => state.audio.error);
+import { getAudioCategory, getAudioCategoryById } from '../../features/audios/audioSlice';
 
+const AudioCategory = () => {
+    const params = useParams();
 
-
-  const audioCategory = useSelector((state) => state.audio.audioCategory);
-  const audioCategoryLoading = useSelector((state) => state.audio.isLoading);
-
-  useEffect(() => {
-    dispatch(getAudios());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getAudioCategory());
-  }, [dispatch]);
-
-  console.log(getAll);
-  //to change icon
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
-
+    // Now you can access the parameters using the keys defined in your route
+    const { id } = params;
+    const dispatch = useDispatch()
+   
+    const audioCategory = useSelector(state => state.audio.audioCategory);
+    const audioCategoryLoading = useSelector(state => state.audio.isLoading);
+  
+    const getAudioCategoryData = useSelector(state => state.audio.audioCategoryId);
+    const getAudioCategoryLoading = useSelector(state => state.audio.isLoading);
+  
+    
+    useEffect(()=>{
+      dispatch(getAudioCategory())
+          },[dispatch])
+          
+      
+    
+    useEffect(() => {
+        dispatch(getAudioCategoryById(id));
+    }, [dispatch,id]);
+  
+  
+    
+      //to change icon
+      const [isClicked, setIsClicked] = useState(false);
+  
+      const handleClick = () => {
+        setIsClicked(!isClicked);
+      };
   return (
     <>
       <NavBar />
@@ -85,6 +91,10 @@ const Audios = () => {
             lg="2"
             style={{ textAlign: "center", marginBottom: "10px" }}
           >
+            <Link to={'/audios'} style={{ color: "rgba(5, 20, 39, 1)",
+                        fontSize: "15px",
+                        marginTop: "5px",
+                        textDecoration: "none",}}>
             <div
               style={{
                 border: "none",
@@ -97,55 +107,31 @@ const Audios = () => {
                   "0px 3.6861166954040527px 3.6861166954040527px 0px rgba(209, 155, 111, 0.22)",
               }}
             >
-              <p style={{ color: "#FFFFFF", fontWeight: "bold" }}>الكل</p>
+              <p style={{ color: "black", fontWeight: "bold" }}>الكل</p>
             </div>
+            </Link>
           </Col>
 
-          {!audioCategoryLoading ? (
-            audioCategory ? (
-              <>
-                {audioCategory.map((item, index) => (
-                  <Col
-                    xs="6"
-                    md="4"
-                    lg="2"
-                    style={{ textAlign: "center", marginBottom: "10px" }}
-                  >
-                    <Link
-                      style={{
-                        color: "rgba(5, 20, 39, 1)",
-                        fontSize: "15px",
-                        marginTop: "5px",
-                        textDecoration: "none",
-                      }}
-                      to={`/audiosCategory/${item.id}`}
-                    >
-                      <div
-                        style={{
-                          border: "1.38px solid rgba(232, 232, 232, 1)",
-                          borderRadius: "23px",
-                          width: "124px",
-                          height: "33.74px",
-                          background:
-                            "linear-gradient(0deg, #E8E8E8, #E8E8E8),linear-gradient(0deg, #F5F5F5, #F5F5F5)",
-                        }}
-                      >
-                        <h6
-                          style={{
-                            color: "rgba(5, 20, 39, 1)",
-                            fontSize: "15px",
-                            marginTop: "5px",
-                          }}
-                        >
-                          {item.title}
-                        </h6>
-                      </div>
-                    </Link>
-                  </Col>
-                ))}
-              </>
-            ) : null
-          ) : null}
+          {
+  !audioCategoryLoading ? (
+    audioCategory ? (
+     <>
+        {audioCategory.map((item, index) => (
+        <Col key={item.id} xs="6" md="4" lg="2" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                <Link style={{ color: 'rgba(5, 20, 39, 1)', fontSize: '15px', marginTop: '5px', textDecoration: 'none' }} to={`/audiosCategory/${item.id}`}>
+
+        <div style={{border :'1.38px solid rgba(232, 232, 232, 1)' , borderRadius:'23px' , width:'124px' , height:'33.74px' , 
+            background: item.id == id ? 'linear-gradient(331.41deg, #D19B6F 6.78%, #F6E5C3 204.87%)' : 'linear-gradient(331.41deg, #D19B6F 6.78%, #F6E5C3 204.87%)' }}>
+                <h6 style={{  color:item.id == id ?'white':'black' , fontSize:'15px', marginTop:'5px'}}>{item.title}</h6>
+            </div>
+            </Link>
+        </Col>
+))}
+
+</>
+) : null
+) : null
+}
         </Row>
       </Container>
 
@@ -221,11 +207,11 @@ const Audios = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
 
-                <Link to="/audiosSort">
+                <Link to={`/audiosCategorySort/${id}`}>
                   <img src={group} alt="" width="35px" height="35px" />
                 </Link>
 
-                <Link to="/audios">
+                <Link to={`/audiosCategory/${id}`}>
                   {" "}
                   <img
                     src={isClicked ? group2 : group22}
@@ -242,12 +228,13 @@ const Audios = () => {
 
       <Container>
         <Row className="m-auto">
-          {!isLoading
-            ? getAll && getAll.length > 0
-              ? getAll.map((item) => {
-                {console.log(getAll);}
-                  return (
-                    <Col xs="12" md="6" lg="6" className="mb-3">
+        {
+      !getAudioCategoryLoading?(
+  getAudioCategoryData && getAudioCategoryData.length > 0 ? (
+    getAudioCategoryData.map((item)=>{
+return(
+    <Col xs="12" md="6" lg="6" className="mb-3">
+        {console.log(item)}
                       <div
                         style={{
                           display: "flex",
@@ -260,7 +247,7 @@ const Audios = () => {
                         <div
                           style={{ display: "flex", justifyContent: "center" }}
                         >
-                          <Link to={`/audioCard/${item.id}`}>
+                          <Link to={`/audioCardCategory/${item.id}`}>
                             <img src={item.image } alt="img" width={200} height={200}/>
                           </Link>
                           <div
@@ -271,8 +258,8 @@ const Audios = () => {
                               padding: "20px",
                             }}
                           >
-                            <h5>{item.elder.name}</h5>
-                            <p>عدد المقاطع الصوتية {item.audios_count}</p>
+                            <h5>{item.name}</h5>
+                            <p>عدد المقاطع الصوتية {item.count_audios}</p>
                           </div>
                         </div>
 
@@ -290,13 +277,13 @@ const Audios = () => {
                         </div>
                       </div>
                     </Col>
-                  );
-                })
-              : null
-            : null}
+        )
+      })
+          ) : null):null
+      }
         </Row>
       </Container>
     </>
   );
 };
-export default Audios;
+export default AudioCategory;

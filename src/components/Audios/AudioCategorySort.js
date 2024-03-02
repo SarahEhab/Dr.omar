@@ -14,34 +14,38 @@ import group1 from "../../images/Group-1-1.png";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getAudioCategory, getAudioCategoryById, getAudios } from '../../features/audios/audioSlice';
-const AudiosSort = () => {
-  const dispatch = useDispatch();
+const AudioCategorySort = () => {
+    const params = useParams();
 
-  const getAll = useSelector((state) => state.audio.audios);
-  const isLoading = useSelector((state) => state.audio.isLoading);
-  const error = useSelector((state) => state.audio.error);
-
-
-
-  const audioCategory = useSelector((state) => state.audio.audioCategory);
-  const audioCategoryLoading = useSelector((state) => state.audio.isLoading);
-
+    // Now you can access the parameters using the keys defined in your route
+    const { id } = params;
+    const dispatch = useDispatch()
+   
+    const audioCategory = useSelector(state => state.audio.audioCategory);
+    const audioCategoryLoading = useSelector(state => state.audio.isLoading);
   
-  useEffect(() => {
-    dispatch(getAudios());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getAudioCategory());
-  }, [dispatch]);
-
+    const getAudioCategoryData = useSelector(state => state.audio.audioCategoryId);
+    const getAudioCategoryLoading = useSelector(state => state.audio.isLoading);
   
-    //to change icon
-    const [isClicked, setIsClicked] = useState(false);
-
-    const handleClick = () => {
-      setIsClicked(!isClicked);
-    };
+    
+    useEffect(()=>{
+      dispatch(getAudioCategory())
+          },[dispatch])
+          
+      
+    
+    useEffect(() => {
+        dispatch(getAudioCategoryById(id));
+    }, [dispatch,id]);
+  
+  
+    
+      //to change icon
+      const [isClicked, setIsClicked] = useState(false);
+  
+      const handleClick = () => {
+        setIsClicked(!isClicked);
+      };
 
     return <>  
      <NavBar />
@@ -125,13 +129,13 @@ const AudiosSort = () => {
                     </NavDropdown.Item>
                </NavDropdown>
 
-              <Link to='/audiosSort'><img 
+              <Link to={`/audiosCategorySort/${id}`}><img 
                src={isClicked ? group : group1} 
                width='35px' 
               height='35px' 
               onClick={handleClick}  /></Link>
 
-              <Link to='/audios'>   <img src={group2} alt=''  width='35px' height="35px"  /></Link>
+              <Link to={`/audiosCategory/${id}`}>   <img src={group2} alt=''  width='35px' height="35px"  /></Link>
               </div>
             </div> 
 
@@ -143,9 +147,9 @@ const AudiosSort = () => {
         <div class="row row-cols-2 row-cols-lg-5  g-lg-3" style={{width:'100%'}}>
           
       {
-      !isLoading?(
-  getAll && getAll.length > 0 ? (
-    getAll.map((item)=>{
+      !getAudioCategoryLoading?(
+  getAudioCategoryData && getAudioCategoryData.length > 0 ? (
+    getAudioCategoryData.map((item)=>{
 return(
             <div class="col">
             <div class="p-3">
@@ -172,4 +176,4 @@ return(
 
      </>;
 }
-export default AudiosSort;
+export default AudioCategorySort;

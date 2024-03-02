@@ -34,6 +34,9 @@ import ErrorPage from "./components/ErrorPage/ErrorPage";
 
 import ImgCategory from "./components/Pictures/ImgCategory";
 import ArticalCategory from "./components/Articles/ArticalCategory";
+import AudioCategory from "./components/Audios/AudioCategory";
+import AudioCategorySort from "./components/Audios/AudioCategorySort";
+import AudioCardCategory from "./components/Audios/AudioCardCategory";
 
 function App() {
   return (
@@ -42,7 +45,13 @@ function App() {
         <Routes>
           <Route index element={<HomePage />} />
           <Route path="/audios" element={<Audios />} />
-          <Route path="/audiosSort/:id" element={<AudiosSort />} />
+          <Route path="/audiosSort" element={<AudiosSort />} />
+
+          <Route path="/audiosCategory/:id" element={<AudioCategory />} />
+          <Route path="/audiosCategorySort/:id" element={<AudioCategorySort />} />
+          <Route path="/audioCardCategory/:id" element={<AudioCardCategory />} />
+
+
           <Route path="/audioCard/:id" element={<AudioCard />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/articles" element={<Articles />} />
