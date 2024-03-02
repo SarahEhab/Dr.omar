@@ -21,7 +21,6 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link,useParams  } from 'react-router-dom';
 import NavBar from "../Navbar/NavBar";
-import { getElders } from "../../features/elders/eldersSlice";
 
 import { getAudioCategory, getAudioCategoryById } from '../../features/audios/audioSlice';
 

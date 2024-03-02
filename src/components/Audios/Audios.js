@@ -22,7 +22,6 @@ import { useDispatch } from "react-redux";
 import { getAudioCategory, getAudios } from "../../features/audios/audioSlice";
 import { Link } from "react-router-dom";
 import NavBar from "../Navbar/NavBar";
-import { getElders } from "../../features/elders/eldersSlice";
 
 const Audios = () => {
   const dispatch = useDispatch();

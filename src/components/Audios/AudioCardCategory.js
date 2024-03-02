@@ -19,7 +19,6 @@ import play from "../../images/play.png";
 import heart from "../../images/heart.png";
 import download from "../../images/download.png";
 import NavBar from "../Navbar/NavBar";
-import { getEldersById } from "../../features/elders/eldersSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link,useParams  } from 'react-router-dom';
